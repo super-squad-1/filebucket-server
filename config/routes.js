@@ -11,12 +11,7 @@ module.exports = require('lib/wiring/routes')
 .resources('examples')
 
 // File managing routes
-.post('/upload', 'uploads#create')
-.get('/download/:id', 'uploads#download')
-
-// calling RESTful uploads, to make it clear that it is different than uploading
-// a single file
-.resources('uploads', { except: ['create'] })
+.resources('uploads', { except: ['edit', 'new'] })
 // .get('/uploads', 'uploads#index')
 // .get('/uploads/:id', 'uploads#read')
 // .delete('/uploads/:id', 'uploads#delete')

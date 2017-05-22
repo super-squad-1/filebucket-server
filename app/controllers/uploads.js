@@ -26,9 +26,10 @@ const show = (req, res) => {
 };
 
 const create = (req, res, next) => {
-  // let upload = Object.assign(req.body.upload, {
-  //   _owner: req.user._id,
-  // });
+  let upload = Object.assign(req.body.upload, {
+    _owner: req.user._id,
+    url: 'whatever'
+  });
   console.log('this is what i am getting in create: ')
   Upload.create(upload)
     .then(upload =>
@@ -63,7 +64,7 @@ module.exports = controller({
   destroy,
 }, { before: [
   { method: setUser, only: ['index', 'show'] },
-  // { method: authenticate, except: ['index', 'show'] },
+  { method: authenticate, except: ['index', 'show'] },
   { method: setModel(Upload), only: ['show'] },
   { method: setModel(Upload, { forUser: true }), only: ['update', 'destroy'] },
 ], });
