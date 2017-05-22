@@ -11,16 +11,16 @@ module.exports = require('lib/wiring/routes')
 .resources('examples')
 
 // File managing routes
-.post('/upload', 'files#create')
-.get('/download/:id', 'files#download')
+.post('/upload', 'uploads#create')
+.get('/download/:id', 'uploads#download')
 
 // calling RESTful uploads, to make it clear that it is different than uploading
 // a single file
 .resources('uploads', { except: ['create'] })
-// .get('/files', 'files#index')
-// .get('/files/:id', 'files#read')
-// .delete('/files/:id', 'files#delete')
-// .patch('/files/:id', 'files#update')
+// .get('/uploads', 'uploads#index')
+// .get('/uploads/:id', 'uploads#read')
+// .delete('/uploads/:id', 'uploads#delete')
+// .patch('/uploads/:id', 'uploads#update')
 
 // users of the app have special requirements
 .post('/sign-up', 'users#signup')

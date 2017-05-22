@@ -6,6 +6,7 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const pathfinderUI = require('pathfinder-ui')
 
 const loader = require('lib/wiring/loader');
 
@@ -21,6 +22,11 @@ const before = (app) => {
   app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
+  // added to find express routes
+  app.use('/pathfinder', function(req, res, next) {
+    pathfinderUI(app)
+    next()
+  }, pathfinderUI.router)
 };
 
 const after = (app) => {
