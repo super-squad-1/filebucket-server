@@ -31,27 +31,20 @@ const show = (req, res) => {
 };
 
 const create = (req, res, next) => {
-  console.log('I\'m getting into create')
-  console.log(req.body)
-  let upload = Object.assign(req.body.upload, {
-    _owner: req.user._id
-  })
-  console.log('upload is: ', upload);
 
   const file = {
     path: req.file.path,
-    name: req.file.name,
+    name: req.body.file.name,
     originalname: req.file.originalname,
     mimetype: req.file.mimetype
   }
-  console.log('file is: ', file)
 
   s3Upload(file)
   .then((s3Response) => {
-    console.log('s3Response is: ', s3Response);
     return Upload.create({
       url: s3Response.Location,
       name: file.name,
+      _owner: req.user._id,
       originalname: req.file.originalname,
       mimetype: req.file.mimetype
     })
@@ -83,6 +76,7 @@ module.exports = controller({
   update,
   destroy,
 }, { before: [
+  {method: multerUpload.single('file[path]'), only: ['create'] },
   { method: setUser, only: ['index', 'show'] },
   { method: authenticate, except: ['index', 'show'] },
   { method: setModel(Upload), only: ['show'] },
