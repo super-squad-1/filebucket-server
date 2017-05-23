@@ -49,6 +49,7 @@ const create = (req, res, next) => {
       mimetype: req.file.mimetype
     })
   })
+  .then(() => res.sendStatus(200))
   .catch((error) => {console.error})
 
 
