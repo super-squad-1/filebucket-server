@@ -4,9 +4,14 @@ const controller = require('lib/wiring/controller');
 const models = require('app/models');
 const Upload = models.upload;
 
+const multer = require('multer')
+const multerUpload = multer({ dest: '/tmp/' })
+
 const authenticate = require('./concerns/authenticate');
 const setUser = require('./concerns/set-current-user');
 const setModel = require('./concerns/set-mongoose-model');
+
+const s3Upload = require('lib/aws-s3-upload')
 
 const index = (req, res, next) => {
   console.log('I\'m getting in index.')
@@ -26,19 +31,34 @@ const show = (req, res) => {
 };
 
 const create = (req, res, next) => {
+  console.log('I\'m getting into create')
+  console.log(req.body)
   let upload = Object.assign(req.body.upload, {
-    _owner: req.user._id,
-    url: 'whatever'
-  });
-  console.log('this is what i am getting in create: ')
-  Upload.create(upload)
-    .then(upload =>
-      res.status(201)
-        .json({
-          upload: upload.toJSON({ virtuals: true, user: req.user }),
-        })
-      )
-    .catch(next);
+    _owner: req.user._id
+  })
+  console.log('upload is: ', upload);
+
+  const file = {
+    path: req.file.path,
+    name: req.file.name,
+    originalname: req.file.originalname,
+    mimetype: req.file.mimetype
+  }
+  console.log('file is: ', file)
+
+  s3Upload(file)
+  .then((s3Response) => {
+    console.log('s3Response is: ', s3Response);
+    return Upload.create({
+      url: s3Response.Location,
+      name: file.name,
+      originalname: req.file.originalname,
+      mimetype: req.file.mimetype
+    })
+  })
+  .catch((error) => {console.error})
+
+
 };
 
 const update = (req, res, next) => {
