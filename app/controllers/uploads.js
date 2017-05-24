@@ -49,7 +49,7 @@ const create = (req, res, next) => {
     })
   })
   .then(() => res.sendStatus(200))
-  .catch((error) => {console.error})
+  .catch(next)
 
 
 };
