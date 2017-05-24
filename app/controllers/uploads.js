@@ -15,7 +15,6 @@ const s3Upload = require('lib/aws-s3-upload')
 const s3Delete = require('lib/aws-s3-delete')
 
 const index = (req, res, next) => {
-  console.log('I\'m getting in index.')
   Upload.find()
     .then(uploads => res.json({
       uploads: uploads.map((e) =>
@@ -25,7 +24,6 @@ const index = (req, res, next) => {
 };
 
 const show = (req, res) => {
-    console.log('I\'m getting in show.')
   res.json({
     upload: req.upload.toJSON({ virtuals: true, user: req.user }),
   });
@@ -57,7 +55,6 @@ const create = (req, res, next) => {
 };
 
 const update = (req, res, next) => {
-    console.log('I\'m getting in update.')
   delete req.body._owner;  // disallow owner reassignment.
   req.upload.update(req.body.upload)
     .then(() => res.sendStatus(204))
@@ -78,7 +75,7 @@ const destroy = (req, res, next) => {
         const pathname = u.pathname.substr(1)
         s3Delete(pathname)
           .then(function() {
-            return Upload.remove()
+            return req.upload.remove()
               .then(() => res.sendStatus(200))
               .catch(err => next(err))
           })
