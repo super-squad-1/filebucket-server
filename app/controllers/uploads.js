@@ -22,13 +22,13 @@ const index = (req, res, next) => {
     }))
     .catch(next);
 };
-
+// user can see files
 const show = (req, res) => {
   res.json({
     upload: req.upload.toJSON({ virtuals: true, user: req.user }),
   });
 };
-
+// user uploads file
 const create = (req, res, next) => {
 
   const file = {
@@ -53,14 +53,15 @@ const create = (req, res, next) => {
 
 
 };
-
+// update file title if owner otherwise return error
 const update = (req, res, next) => {
+  Update.findOne( { _id: req.params.id, _owner: req.user._id } )
   delete req.body._owner;  // disallow owner reassignment.
   req.upload.update(req.body.upload)
     .then(() => res.sendStatus(204))
     .catch(next);
 };
-
+// delete file if owner otherwise return error
 const destroy = (req, res, next) => {
   Upload.findOne( { _id: req.params.id, _owner: req.user._id } )
     .then(upload_rec => {
