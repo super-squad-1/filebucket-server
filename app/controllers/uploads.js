@@ -69,7 +69,7 @@ const destroy = (req, res, next) => {
       } else {
         // to get the file name, need to strip off the front
         // part of the url
-        const URL = require('URL')
+        const URL = require('url')
         const u = URL.parse(upload_rec.url)
         // this pathname will have a leading slash - remove that too
         const pathname = u.pathname.substr(1)
