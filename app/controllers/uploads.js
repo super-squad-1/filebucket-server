@@ -55,7 +55,6 @@ const create = (req, res, next) => {
 };
 // update file title if owner otherwise return error
 const update = (req, res, next) => {
-  Update.findOne( { _id: req.params.id, _owner: req.user._id } )
   delete req.body._owner;  // disallow owner reassignment.
   req.upload.update(req.body.upload)
     .then(() => res.sendStatus(204))
