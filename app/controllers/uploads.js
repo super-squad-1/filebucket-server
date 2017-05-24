@@ -12,6 +12,7 @@ const setUser = require('./concerns/set-current-user');
 const setModel = require('./concerns/set-mongoose-model');
 
 const s3Upload = require('lib/aws-s3-upload')
+const s3Delete = require('lib/aws-s3-delete')
 
 const index = (req, res, next) => {
   console.log('I\'m getting in index.')
@@ -64,11 +65,29 @@ const update = (req, res, next) => {
 };
 
 const destroy = (req, res, next) => {
-    console.log('I\'m getting in destroy.')
-  req.upload.remove()
-    .then(() => res.sendStatus(204))
-    .catch(next);
-};
+  Upload.findOne( { _id: req.params.id, _owner: req.user._id } )
+    .then(upload_rec => {
+      if (!upload_rec) {
+        return next()
+      } else {
+        // to get the file name, need to strip off the front
+        // part of the url
+        const URL = require('URL')
+        const u = URL.parse(upload_rec.url)
+        // this pathname will have a leading slash - remove that too
+        const pathname = u.pathname.substr(1)
+        s3Delete(pathname)
+          .then(function() {
+            return Upload.remove()
+              .then(() => res.sendStatus(200))
+              .catch(err => next(err))
+          })
+          .catch(err => next(err))
+      }
+    })
+    .catch(err => next(err))
+}
+
 
 module.exports = controller({
   index,
