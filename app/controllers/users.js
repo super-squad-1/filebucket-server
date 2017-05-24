@@ -43,7 +43,7 @@ const makeErrorHandler = (res, next) =>
     error && error.name && error.name === 'ValidationError' ?
       res.status(400).json({ error }) :
     next(error);
-
+// user sign up
 const signup = (req, res, next) => {
   let credentials = req.body.credentials;
   let user = { email: credentials.email, password: credentials.password };
@@ -55,7 +55,7 @@ const signup = (req, res, next) => {
       res.status(201).json({ user }))
     .catch(makeErrorHandler(res, next));
 };
-
+// user sign in
 const signin = (req, res, next) => {
   let credentials = req.body.credentials;
   let search = { email: credentials.email };
@@ -76,7 +76,7 @@ const signin = (req, res, next) => {
     })
     .catch(makeErrorHandler(res, next));
 };
-
+// user sign out
 const signout = (req, res, next) => {
   getToken().then(token =>
     User.findOneAndUpdate({
@@ -89,7 +89,7 @@ const signout = (req, res, next) => {
     user ? res.sendStatus(204) : next()
   ).catch(next);
 };
-
+// user change password
 const changepw = (req, res, next) => {
   debug('Changing password');
   User.findOne({

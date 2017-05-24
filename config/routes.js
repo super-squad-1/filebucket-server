@@ -14,8 +14,8 @@ module.exports = require('lib/wiring/routes')
 .resources('uploads', { except: ['edit', 'new'] })
 // .get('/uploads', 'uploads#index')
 // .get('/uploads/:id', 'uploads#read')
-// .delete('/uploads/:id', 'uploads#delete')
-// .patch('/uploads/:id', 'uploads#update')
+.delete('/uploads/:id', 'uploads#delete')
+.patch('/uploads/:id', 'uploads#update')
 
 // users of the app have special requirements
 .post('/sign-up', 'users#signup')
