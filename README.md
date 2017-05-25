@@ -6,13 +6,12 @@ or rename their own files. Filebucket stores information for the files on a
 MongooseDB database and stores the files in and AWS S3 bucket. The client is
 built using Bootstrap and Handlebars
 
-## Deployed back-end app
-<!-- * A link to the deployed back-end app. -->
-https://safe-retreat-33747.herokuapp.com
+## Project Links
 
-## Deployed front-end app
-<!-- * A link to the repo for your front-end. -->
-https://super-squad-1.github.io/filebucket-client/
+[FRONTEND-DEPLOY]  https://super-squad-1.github.io/filebucket-client/#
+[FRONTEND-REPO]  https://github.com/super-squad-1/filebucket-client
+[BACKEND-DEPLOY]  https://safe-retreat-33747.herokuapp.com
+[BACKEND-REPO]  https://github.com/super-squad-1/filebucket-server
 
 ## Routes
 <!-- * A catalog of routes (paths and methods) that the API expects. -->
