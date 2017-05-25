@@ -19,22 +19,38 @@ built using Bootstrap and Handlebars
 ## Routes
 <!-- * A catalog of routes (paths and methods) that the API expects. -->
 Method    Path
+
 GET       /
+
 GET       /uploads
+
 GET       /uploads/:id
+
 POST      /uploads
+
 PATCH     /uploads/:id
+
 PUT       /uploads/:id
+
 DELETE    /uploads/:id
+
 POST      /sign-up
+
 POST      /sign-in
+
 DELETE    /sign-out/:id
+
 PATCH     /change-password/:id
+
 GET       /users
+
 GET       /users/:id
 
 ## Developers
 @prankmode
+
 @pjliddy
+
 @eliottenos
+
 @jbeltrami
